@@ -55,7 +55,7 @@ FastAPI-Notes-App/
 
 4. **Add your MongoDB connection string**
 
-   Copy `.env.example` to `.env` and fill in your own URI (a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster works):
+   Create a .env file and add your own URI (a free [MongoDB Atlas](https://www.mongodb.com/atlas) cluster works):
    ```
    MONGO_URI=your_mongodb_connection_string_here
    ```
