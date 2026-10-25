@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Note</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Edit Note</h1>
+
+    <div class="panel">
+        <form method="POST" action="/edit/{{ note.id }}">
+            <input type="text" name="title" value="{{ note.title }}" required>
+            <textarea name="desc" required>{{ note.desc }}</textarea>
+            <div class="actions">
+                <button type="submit">Save Changes</button>
+                <a href="/" class="btn secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

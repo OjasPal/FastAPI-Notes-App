@@ -2,20 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Notes</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <h1>My Notes</h1>
 
+    <!-- Add note -->
+    <div class="panel">
+        <form method="POST" action="/">
+            <input type="text" name="title" placeholder="Title" required>
+            <textarea name="desc" placeholder="Description" required></textarea>
+            <label class="checkbox">
+                <input type="checkbox" name="important"> Mark as important
+            </label>
+            <button type="submit">Add Note</button>
+        </form>
+    </div>
+
+    <!-- Search + filter -->
+    <div class="panel">
+        <form method="GET" action="/" class="search-form">
+            <input type="text" name="q" placeholder="Search title or description..." value="{{ q }}">
+            <label class="checkbox">
+                <input type="checkbox" name="important" value="true" {% if only_important %}checked{% endif %}>
+                Important only
+            </label>
+            <button type="submit">Search</button>
+            {% if q or only_important %}
+                <a href="/" class="btn secondary">Clear</a>
+            {% endif %}
+        </form>
+    </div>
+
+    <p class="count">{{ notes|length }} note(s)</p>
+
+    <!-- Notes list -->
     {% if notes %}
-        <ul>
-            {% for n in notes %}
-                <li>{{ n.note }}</li>
-            {% endfor %}
-        </ul>
+        {% for n in notes %}
+            <div class="note {% if n.important %}important{% endif %}">
+                <div class="note-header">
+                    <h3>{{ n.title }}</h3>
+                    <form method="POST" action="/toggle/{{ n.id }}">
+                        <button type="submit" class="star" title="Toggle important">
+                            {% if n.important %}★{% else %}☆{% endif %}
+                        </button>
+                    </form>
+                </div>
+
+                <p>{{ n.desc }}</p>
+                {% if n.created_at %}
+                    <span class="note-date">{{ n.created_at }}</span>
+                {% endif %}
+
+                <div class="actions">
+                    <a href="/edit/{{ n.id }}" class="btn secondary">Edit</a>
+                    <form method="POST" action="/delete/{{ n.id }}"
+                          onsubmit="return confirm('Delete this note?');">
+                        <button type="submit" class="danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
     {% else %}
-        <p>No notes yet. Add one in MongoDB Compass.</p>
+        {% if q or only_important %}
+            <p class="empty">No notes match your search.</p>
+        {% else %}
+            <p class="empty">No notes yet. Add your first one above.</p>
+        {% endif %}
     {% endif %}
 </body>
 </html>
