@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Notes</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>My Notes</h1>
+
+    {% if notes %}
+        <ul>
+            {% for n in notes %}
+                <li>{{ n.note }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No notes yet. Add one in MongoDB Compass.</p>
+    {% endif %}
+</body>
+</html>
